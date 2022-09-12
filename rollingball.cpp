@@ -3,7 +3,7 @@
 RollingBall::RollingBall(int n) : OctahedronBall (n)
 {
     //mVelocity = gsml::Vector3d{1.0f, 1.0f, -0.05f};
-    mPosition.translate(0,0,0.25);
+    mPosition.translate(0,0,0.0);
     mScale.scale(0.25,0.25,0.25);
 }
 RollingBall::~RollingBall()
@@ -22,7 +22,7 @@ void RollingBall::move(float dt)
     {
         //Finn trekantens vertices v0, v1, v2
         //Finn ballens posisjon i xy-planet
-        //Søk etter triangel som ballen er på nå
+        //Sï¿½k etter triangel som ballen er pï¿½ nï¿½
         // - med barysentriske koordinater
 
         if (true /*barysentrisk koordinater mellom 0 og 1*/)
@@ -48,6 +48,12 @@ void RollingBall::move(float dt)
 
     //mMatrix = mPosition * mScale;
 
+}
+
+gsml::Vector3d RollingBall::getPosition()
+{
+    return gsml::Vector3d(mPosition(0,3), mPosition(1,3), mPosition(2,3));
+    //return mPosition.column(3).x();
 }
 
 void RollingBall::init(GLint matrixUniform)

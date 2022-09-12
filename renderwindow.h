@@ -43,7 +43,7 @@ private:
     void init();
     XYZ xyz;
     TriangleSurface surf;
-    TriangleSurface* surf2;
+    TriangleSurface* surface;
 
     Tri* Triangle1;
     std::vector<Tri> TriVector;
