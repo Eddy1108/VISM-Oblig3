@@ -1,3 +1,4 @@
+QT          += core gui widgets opengl
 QT          += core gui widgets
 
 TEMPLATE    = app
@@ -12,6 +13,7 @@ HEADERS += \
     Matrix4x4/matrix4x4.h \
     Matrix4x4/vector3d.h \
     Matrix4x4/vertex.h \
+    Tri.h \
     mainwindow.h \
     octahedronball.h \
     renderwindow.h \
@@ -24,6 +26,7 @@ HEADERS += \
 SOURCES += \
     Matrix4x4/matrix4x4.cpp \
     Matrix4x4/vertex.cpp \
+    Tri.cpp \
     main.cpp \
     mainwindow.cpp \
     octahedronball.cpp \

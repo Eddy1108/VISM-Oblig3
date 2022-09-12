@@ -12,6 +12,8 @@
 #include "shader.h"
 #include "mainwindow.h"
 
+#include "Tri.h"
+
 #include "rollingball.h"
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
@@ -42,13 +44,13 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     gsml::Vector4d v{1,2,3,4};
     qDebug() << v[0] <<v[1] << v[3] << v[2];
 
-    Triangle1 = new Tri();
+    //Triangle1 = new Tri();
     //TriVector = Triangle1->TriangleVectorFromFile("../VSIM101_H22_Rulleball0/cleanTrekanter.txt");
 
-    Triangle1->TriangleVectorFromFileLocal("../VISM-Oblig3/cleanTrekanter.txt");
+    //Triangle1->TriangleVectorFromFileLocal("../VISM-Oblig3/cleanTrekanter.txt");
 
     // Demo
-    surf2 = new TriangleSurface("../VISM-Oblig3/totrekanter.txt");
+    surf2 = new TriangleSurface("../VISM-Oblig3/platform.txt");
     ball = new RollingBall(3);
     dynamic_cast<RollingBall*>(ball)->setSurface(surf2);
 

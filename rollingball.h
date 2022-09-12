@@ -16,7 +16,9 @@ public:
 protected:
     VisualObject* triangle_surface;
 private:
-    gsml::Vector3d old_normal{0.0, 0.0, 1.0};
-    int old_index{0};
+    gsml::Vector3d mvelocity_0{0,0,0};
+    gsml::Vector3d mvelocity{0,0,0};
+    float macceleration{0};
+    float gravity{9.80665};
 };
 #endif // ROLLINGBALL_H
