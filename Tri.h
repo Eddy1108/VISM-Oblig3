@@ -3,10 +3,12 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
+#include "VisualObject.h"
+
 #include <string>
 #include <vector>
 
-class Tri
+class Tri : public VisualObject
 {
 public:
 
@@ -24,5 +26,10 @@ public:
 	static std::vector<Tri> TriangleVectorFromFile(const std::string& path);
 
 	void TriangleVectorFromFileLocal(const std::string& path);
+
+protected:
+
+	void init(GLint matrixUniform);
+	void draw();
 };
 

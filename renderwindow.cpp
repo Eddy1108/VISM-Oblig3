@@ -44,13 +44,12 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     Triangle1 = new Tri();
     //TriVector = Triangle1->TriangleVectorFromFile("../VSIM101_H22_Rulleball0/cleanTrekanter.txt");
-
     Triangle1->TriangleVectorFromFileLocal("../VISM-Oblig3/cleanTrekanter.txt");
 
     // Demo
-    surf2 = new TriangleSurface("../VISM-Oblig3/totrekanter.txt");
+    //surf2 = new TriangleSurface("../VISM-Oblig3/totrekanter.txt");
     ball = new RollingBall(3);
-    dynamic_cast<RollingBall*>(ball)->setSurface(surf2);
+    //dynamic_cast<RollingBall*>(ball)->setSurface(surf2);
 
     gsmMMatrix = new gsml::Matrix4x4;
     gsmMMatrix->setToIdentity();
@@ -125,8 +124,8 @@ void RenderWindow::init()
     mVMatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "vmatrix" );
     mLightPositionUniform = glGetUniformLocation( mShaderProgram->getProgram(), "light_position" );
     glBindVertexArray( 0 );
-    surf2->init(mMatrixUniform);
-    ball->init(mMatrixUniform);
+    //surf2->init(mMatrixUniform);
+    //ball->init(mMatrixUniform);
     xyz.init(mMatrixUniform);
 }
 
@@ -169,9 +168,9 @@ void RenderWindow::render()
     glUniform3f(mLightPositionUniform, mLightPosition.x, mLightPosition.y, mLightPosition.z);
     // actual draw call
     // demo
-    surf2->draw();
-    ball->move(0.017f);
-    ball->draw();
+    //surf2->draw();
+    //ball->move(0.017f);
+    //ball->draw();
     // checkForGLerrors() because that takes a long time
     // and before swapBuffers(), else it will show the vsync time
     calculateFramerate();
