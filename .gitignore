@@ -57,3 +57,7 @@ compile_commands.json
 .vcxproj
 .vcxproj.filters
 .vcxproj.users
+
+**/bin/Debug
+**/bin/Release
+**/bin/.vs
