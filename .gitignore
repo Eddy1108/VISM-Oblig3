@@ -54,3 +54,6 @@ compile_commands.json
 *_qmlcache.qrc
 
 .vs
+.vcxproj
+.vcxproj.filters
+.vcxproj.users

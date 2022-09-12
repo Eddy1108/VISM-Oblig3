@@ -1,2 +1,2 @@
 CONFIG += no_fixpath
-QT += core opengl gui widgets
+QT += core gui widgets opengl
