@@ -456,3 +456,6 @@ FodyWeavers.xsd
 *.log
 *.ilk
 *.tlog
+*.pdb
+*.tlog
+debug/
