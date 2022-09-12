@@ -45,10 +45,10 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     Triangle1 = new Tri();
     //TriVector = Triangle1->TriangleVectorFromFile("../VSIM101_H22_Rulleball0/cleanTrekanter.txt");
 
-    Triangle1->TriangleVectorFromFileLocal("../VSIM101_H22_Rulleball0/cleanTrekanter.txt");
+    Triangle1->TriangleVectorFromFileLocal("../VISM-Oblig3/cleanTrekanter.txt");
 
     // Demo
-    surf2 = new TriangleSurface("../VSIM101_H22_Rulleball0/totrekanter.txt");
+    surf2 = new TriangleSurface("../VISM-Oblig3/totrekanter.txt");
     ball = new RollingBall(3);
     dynamic_cast<RollingBall*>(ball)->setSurface(surf2);
 
@@ -108,7 +108,7 @@ void RenderWindow::init()
     //Qt makes a build-folder besides the project folder. That is why we go down one directory
     // (out of the build-folder) and then up into the project folder.
 
-    mShaderProgram = new Shader("../VSIM101_H22_Rulleball0/dagvertex.vert", "../VSIM101_H22_Rulleball0/dagfragment.frag");
+    mShaderProgram = new Shader("../VISM-Oblig3/dagvertex.vert", "../VISM-Oblig3/dagfragment.frag");
 
     //********************** Making the object to be drawn **********************
 
