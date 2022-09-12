@@ -45,8 +45,8 @@ private:
     TriangleSurface surf;
     TriangleSurface* surf2;
 
-    Tri* Triangle1;
-    std::vector<Tri> TriVector;
+    //Tri* Triangle1;
+    //std::vector<Tri> TriVector;
 
 
     QOpenGLContext *mContext;

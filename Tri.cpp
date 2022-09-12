@@ -118,42 +118,47 @@ void Tri::TriangleVectorFromFileLocal(const std::string& path)
 		TriVector.push_back(tri);
 	}
 
-}
+	for (int i = 0; i < TriVector.size(); i++)
+	{
 
-void Tri::init(GLint matrixUniform)
-{
-	mMatrixUniform = matrixUniform;
-	initializeOpenGLFunctions();
-
-	//Vertex Array Object - VAO
-	glGenVertexArrays(1, &mVAO);
-	glBindVertexArray(mVAO);
-
-	//Vertex Buffer Object to hold vertices - VBO
-	glGenBuffers(1, &mVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-
-	glBufferData(GL_ARRAY_BUFFER, mVertices.size() * sizeof(gsml::Vertex), mVertices.data(), GL_STATIC_DRAW);
-
-	// 1rst attribute buffer : vertices
-	glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(gsml::Vertex), (GLvoid*)0);
-	glEnableVertexAttribArray(0);
-
-	// 2nd attribute buffer : colors
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(gsml::Vertex), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-
-	//enable the matrixUniform
-	// mMatrixUniform = glGetUniformLocation( matrixUniform, "matrix" );
-
-	glBindVertexArray(0);
-}
-
-void Tri::draw()
-{
-	glBindVertexArray(mVAO);
-	glUniformMatrix4fv(mMatrixUniform, 1, GL_TRUE, mMatrix.constData());
-	glDrawArrays(GL_TRIANGLES, 0, mVertices.size());//mVertices.size());
+	}
 
 }
+
+//void Tri::init(GLint matrixUniform)
+//{
+//	//mMatrixUniform = matrixUniform;
+//	//initializeOpenGLFunctions();
+//
+//	////Vertex Array Object - VAO
+//	//glGenVertexArrays(1, &mVAO);
+//	//glBindVertexArray(mVAO);
+//
+//	////Vertex Buffer Object to hold vertices - VBO
+//	//glGenBuffers(1, &mVBO);
+//	//glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+//
+//	//glBufferData(GL_ARRAY_BUFFER, mVertices.size() * sizeof(gsml::Vertex), mVertices.data(), GL_STATIC_DRAW);
+//
+//	//// 1rst attribute buffer : vertices
+//	//glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+//	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(gsml::Vertex), (GLvoid*)0);
+//	//glEnableVertexAttribArray(0);
+//
+//	//// 2nd attribute buffer : colors
+//	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(gsml::Vertex), (GLvoid*)(3 * sizeof(GLfloat)));
+//	//glEnableVertexAttribArray(1);
+//
+//	////enable the matrixUniform
+//	//// mMatrixUniform = glGetUniformLocation( matrixUniform, "matrix" );
+//
+//	//glBindVertexArray(0);
+//}
+//
+//void Tri::draw()
+//{
+//	//glBindVertexArray(mVAO);
+//	//glUniformMatrix4fv(mMatrixUniform, 1, GL_TRUE, mMatrix.constData());
+//	//glDrawArrays(GL_TRIANGLES, 0, mVertices.size());//mVertices.size());
+//
+//}
