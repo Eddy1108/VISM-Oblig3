@@ -192,6 +192,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="Math\Barycentric.cpp" />
     <ClCompile Include="Matrix4x4\matrix4x4.cpp" />
     <ClCompile Include="octahedronball.cpp" />
     <ClCompile Include="renderwindow.cpp" />
@@ -206,6 +207,7 @@
   <ItemGroup>
     <QtMoc Include="mainwindow.h">
     </QtMoc>
+    <ClInclude Include="Math\Barycentric.h" />
     <ClInclude Include="Matrix4x4\matrix4x4.h" />
     <ClInclude Include="octahedronball.h" />
     <QtMoc Include="renderwindow.h">
