@@ -149,5 +149,10 @@ void OctahedronBall::draw()
    glBindVertexArray( mVAO );
    glUniformMatrix4fv( mMatrixUniform, 1, GL_TRUE, mMatrix.constData());
    glDrawArrays(GL_TRIANGLES, 0, mVertices.size());//mVertices.size());
+
+   //glBindVertexArray( mVAO );
+   //glUniformMatrix4fv( mMatrixUniform, 1, GL_TRUE, mMatrix.constData());
+   //glDrawElements(GL_TRIANGLE_FAN, mVertices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));//mVertices.size());
+
 }
 
