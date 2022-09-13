@@ -3,6 +3,7 @@
 
 #include "octahedronball.h"
 #include "trianglesurface.h"
+#include "Math/Barycentric.h"
 
 class RollingBall : public OctahedronBall
 {
@@ -18,5 +19,6 @@ protected:
 private:
     gsml::Vector3d old_normal{0.0, 0.0, 1.0};
     int old_index{0};
+
 };
 #endif // ROLLINGBALL_H
