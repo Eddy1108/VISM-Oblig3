@@ -1,4 +1,5 @@
 #include "rollingball.h"
+#include <QtMath>
 
 RollingBall::RollingBall(int n) : OctahedronBall (n)
 {
@@ -38,6 +39,9 @@ void RollingBall::move(float dt)
             //beregn normal  // Kunne bli lagret i minne senere, slikt at vi slipper å kalkulere det hver gang.
             gsml::Vector3d normal = findNormal(v0, v1, v2);
             std::cout << normal << " i trekant " << i/3 << "\n";
+
+            //gsml::Vector3d degreesBetweenNormals = normalPlane.dotProduct(normal);
+
             //beregn akselerasjonvektor - ligning (7)
 
             //Oppdatere hastighet og posisjon

@@ -57,6 +57,10 @@ struct Vector3d {
         return sqrt(x*x+y*y+z*z);
     }
 
+    float dotProduct(const Vector3d& v) {
+        return (x*v.x + y*v.y + z*v.z)/( sqrt(pow(x, 2) + pow(y,2) + pow(z,2)) * sqrt(pow(v.x, 2) + pow(v.y,2) + pow(v.z,2)) );
+    }
+
     //! Normalize to unit length
     void normalize() {
         float d = x*x+y*y+z*z;
