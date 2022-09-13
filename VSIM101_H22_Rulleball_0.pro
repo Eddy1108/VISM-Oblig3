@@ -161,8 +161,8 @@ SOURCES += \
     glm/ext/matrix_int4x3_sized.hpp \
     glm/ext/matrix_int4x4.hpp \
     glm/ext/matrix_int4x4_sized.hpp \
-    glm/ext/matrix_integer.hpp \
-    glm/ext/matrix_integer.inl \
+#   glm/ext/matrix_integer.hpp \
+#   glm/ext/matrix_integer.inl \
     glm/ext/matrix_projection.hpp \
     glm/ext/matrix_projection.inl \
     glm/ext/matrix_relational.hpp \
@@ -209,12 +209,12 @@ SOURCES += \
     glm/ext/scalar_constants.hpp \
     glm/ext/scalar_constants.inl \
     glm/ext/scalar_int_sized.hpp \
-    glm/ext/scalar_integer.hpp \
-    glm/ext/scalar_integer.inl \
+#   glm/ext/scalar_integer.hpp \
+#   glm/ext/scalar_integer.inl \
     glm/ext/scalar_packing.hpp \
     glm/ext/scalar_packing.inl \
-    glm/ext/scalar_reciprocal.hpp \
-    glm/ext/scalar_reciprocal.inl \
+#    glm/ext/scalar_reciprocal.hpp \
+#    glm/ext/scalar_reciprocal.inl \
     glm/ext/scalar_relational.hpp \
     glm/ext/scalar_relational.inl \
     glm/ext/scalar_uint_sized.hpp \
@@ -258,8 +258,8 @@ SOURCES += \
     glm/ext/vector_integer.inl \
     glm/ext/vector_packing.hpp \
     glm/ext/vector_packing.inl \
-    glm/ext/vector_reciprocal.hpp \
-    glm/ext/vector_reciprocal.inl \
+#    glm/ext/vector_reciprocal.hpp \
+#    glm/ext/vector_reciprocal.inl \
     glm/ext/vector_relational.hpp \
     glm/ext/vector_relational.inl \
     glm/ext/vector_uint1.hpp \
@@ -395,8 +395,8 @@ SOURCES += \
     glm/gtx/optimum_pow.inl \
     glm/gtx/orthonormalize.hpp \
     glm/gtx/orthonormalize.inl \
-    glm/gtx/pca.hpp \
-    glm/gtx/pca.inl \
+#    glm/gtx/pca.hpp \
+#    glm/gtx/pca.inl \
     glm/gtx/perpendicular.hpp \
     glm/gtx/perpendicular.inl \
     glm/gtx/polar_coordinates.hpp \
