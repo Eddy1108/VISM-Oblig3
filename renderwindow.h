@@ -42,17 +42,16 @@ private slots:
 private:
     void init();
     XYZ xyz;
-    TriangleSurface surf;
-    TriangleSurface* surface;
+    TriangleSurface* surface{nullptr};
 
     //Tri* Triangle1;
     //std::vector<Tri> TriVector;
 
 
-    QOpenGLContext *mContext;
+    QOpenGLContext *mContext{nullptr};
     bool mInitialized;
     gsml::Vector3d help;
-    RollingBall* ball;
+    RollingBall* ball{nullptr};
 
     Shader *mShaderProgram;
     GLint  mMatrixUniform;
@@ -62,14 +61,14 @@ private:
     GLuint mVAO;
     GLuint mVBO;
 
-    gsml::Matrix4x4 * gsmMMatrix;  // nytt 23/1
-    gsml::Matrix4x4 * gsmVMatrix;  // nytt 23/1
-    gsml::Matrix4x4 * gsmPMatrix;  // nytt 23/1
+    gsml::Matrix4x4 * gsmMMatrix{nullptr};  // nytt 23/1
+    gsml::Matrix4x4 * gsmVMatrix{nullptr};  // nytt 23/1
+    gsml::Matrix4x4 * gsmPMatrix{nullptr};  // nytt 23/1
     gsml::Vector3d mLightPosition;  // nytt 3/10/19
-    QTimer *mRenderTimer;     //timer that drives the gameloop
+    QTimer *mRenderTimer{nullptr};     //timer that drives the gameloop
     QElapsedTimer mTimeStart;       //time variable that reads the actual FPS
 
-    MainWindow *mMainWindow;    //points back to MainWindow to be able to put info in StatusBar
+    MainWindow *mMainWindow{nullptr};    //points back to MainWindow to be able to put info in StatusBar
 
     class QOpenGLDebugLogger *mOpenGLDebugLogger{nullptr};
 

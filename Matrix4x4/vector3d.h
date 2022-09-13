@@ -68,6 +68,18 @@ struct Vector3d {
         }
     }
 
+    Vector3d getNormalized() {
+        float d = x*x+y*y+z*z;
+        gsml::Vector3d result;
+        d = sqrt(d);
+        if (d>0.0) {
+            result.x=x/d;
+            result.y=y/d;
+            result.z=z/d;
+        }
+        return result;
+    }
+
     //! Dot product
     float operator * (const Vector3d& v) const{
         return x*v.x + y*v.y + z*v.z;

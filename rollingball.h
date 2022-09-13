@@ -13,9 +13,11 @@ public:
     void init(GLint matrixUniform) override;
     void draw() override;
     void move(float dt) override;
-    void setSurface(VisualObject* surface) { triangle_surface = surface; }
+    void setSurface(VisualObject* surface);
+    gsml::Vector3d getPosition();
+    gsml::Vector3d findNormal(gsml::Vector3d v0, gsml::Vector3d v1, gsml::Vector3d v2);
 protected:
-    VisualObject* triangle_surface;
+    VisualObject* triangle_surface{nullptr};
 private:
     gsml::Vector3d old_normal{0.0, 0.0, 1.0};
     int old_index{0};

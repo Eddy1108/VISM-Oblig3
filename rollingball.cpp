@@ -3,8 +3,8 @@
 RollingBall::RollingBall(int n) : OctahedronBall (n)
 {
     //mVelocity = gsml::Vector3d{1.0f, 1.0f, -0.05f};
-    mPosition.translate(0,0,0.0);
-    //mScale.scale(1.0,1.0,1.0);
+    mPosition.translate(0.5,0.5,0.5);
+    mScale.scale(0.25f,0.25f,0.25f);
 }
 RollingBall::~RollingBall()
 {
@@ -14,20 +14,30 @@ void RollingBall::move(float dt)
 {
     std::vector<gsml::Vertex>& vertices = dynamic_cast<TriangleSurface*>(triangle_surface)->get_vertices();
 
-    mMatrix = mPosition * mScale; //Remove later
+    //mMatrix = mPosition * mScale; //Remove later
 
-    return;
+    //return;
 
-    for (size_t i = 0; i < vertices.size(); i++)
+    for (size_t i = 0; i < vertices.size(); i += 3)
     {
         //Finn trekantens vertices v0, v1, v2
+        gsml::Vector3d v0 = vertices.at(i).getXYZ();
+        gsml::Vector3d v1 = vertices.at(i+1).getXYZ();
+        gsml::Vector3d v2 = vertices.at(i+2).getXYZ();
         //Finn ballens posisjon i xy-planet
-        //S�k etter triangel som ballen er p� n�
+        gsml::Vector3d result = getPosition().barycentricCoordinates(v0, v1, v2);
+        //std::cout << i << " = " << result << "\n";
+        //Sæk etter triangel som ballen er på nå
         // - med barysentriske koordinater
 
-        if (true /*barysentrisk koordinater mellom 0 og 1*/)
+        //Checks if the ball is within the triangle shape (on x and y axis only)
+        if (result.x <= 1 && result.x >= 0 &&
+                result.y <= 1 && result.y >= 0)
         {
-            //beregn normal
+            std::cout << "er innenfor trekant " << i/3 << "\n";
+            //beregn normal  // Kunne bli lagret i minne senere, slikt at vi slipper å kalkulere det hver gang.
+            gsml::Vector3d normal = findNormal(v0, v1, v2);
+            std::cout << normal << " i trekant " << i/3 << "\n";
             //beregn akselerasjonvektor - ligning (7)
 
             //Oppdatere hastighet og posisjon
@@ -41,19 +51,35 @@ void RollingBall::move(float dt)
                 // Oppdater posisjon i retning den nye hastighetsvektoren
             }
         }
+        else {
+            std::cout << "er utenfor trekant " << i/3 << "\n";
+        }
     }
 
 
 
 
-    //mMatrix = mPosition * mScale;
+    mMatrix = mPosition * mScale;
+    return;
+}
 
+gsml::Vector3d RollingBall::findNormal(gsml::Vector3d v0, gsml::Vector3d v1, gsml::Vector3d v2)
+{
+    gsml::Vector3d ac = v2 - v0;
+    gsml::Vector3d ab = v1 - v0;
+    gsml::Vector3d result = ab.cross(ac);
+
+    return result.getNormalized();
+}
+
+void RollingBall::setSurface(VisualObject *surface)
+{
+    triangle_surface = surface;
 }
 
 gsml::Vector3d RollingBall::getPosition()
 {
     return gsml::Vector3d(mPosition(0,3), mPosition(1,3), mPosition(2,3));
-    //return mPosition.column(3).x();
 }
 
 void RollingBall::init(GLint matrixUniform)
