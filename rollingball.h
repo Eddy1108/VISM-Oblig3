@@ -15,7 +15,7 @@ public:
     void move(float dt) override;
     void setSurface(VisualObject* surface) { triangle_surface = surface; }
 protected:
-    VisualObject* triangle_surface;
+    VisualObject* triangle_surface{nullptr};
 private:
     gsml::Vector3d old_normal{0.0, 0.0, 1.0};
     int old_index{0};
