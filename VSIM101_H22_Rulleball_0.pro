@@ -161,8 +161,8 @@ SOURCES += \
     glm/ext/matrix_int4x3_sized.hpp \
     glm/ext/matrix_int4x4.hpp \
     glm/ext/matrix_int4x4_sized.hpp \
-#   glm/ext/matrix_integer.hpp \
-#   glm/ext/matrix_integer.inl \
+#    glm/ext/matrix_integer.hpp \
+#    glm/ext/matrix_integer.inl \
     glm/ext/matrix_projection.hpp \
     glm/ext/matrix_projection.inl \
     glm/ext/matrix_relational.hpp \
@@ -209,8 +209,8 @@ SOURCES += \
     glm/ext/scalar_constants.hpp \
     glm/ext/scalar_constants.inl \
     glm/ext/scalar_int_sized.hpp \
-#   glm/ext/scalar_integer.hpp \
-#   glm/ext/scalar_integer.inl \
+#    glm/ext/scalar_integer.hpp \
+#    glm/ext/scalar_integer.inl \
     glm/ext/scalar_packing.hpp \
     glm/ext/scalar_packing.inl \
 #    glm/ext/scalar_reciprocal.hpp \

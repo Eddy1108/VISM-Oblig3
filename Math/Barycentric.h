@@ -5,7 +5,6 @@ class Barycentric
 {
 
 public:
-
 	float u{ 0 }, v{ 0 }, w{ 0 };
 	glm::vec3 BaryCoords;
 
