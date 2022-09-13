@@ -22,7 +22,7 @@ void RollingBall::move(float dt)
     {
         //Finn trekantens vertices v0, v1, v2
         //Finn ballens posisjon i xy-planet
-        //Søk etter triangel som ballen er på nå
+        //Soek etter triangel som ballen er paa naa
         // - med barysentriske koordinater
 
         if (true /*barysentrisk koordinater mellom 0 og 1*/)
