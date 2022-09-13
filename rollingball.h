@@ -20,6 +20,9 @@ private:
     gsml::Vector3d mVelocity_0{0,0,0};
     gsml::Vector3d mVelocity{0,0,0};
     float mAcceleration{0};
-    float mGravity{9.80665};
+    float mGravity{9.80665f};
+
+    float ballMass {21.25f};
+    float ballRadius {17.5f};
 };
 #endif // ROLLINGBALL_H
