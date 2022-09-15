@@ -1,4 +1,5 @@
 #include "rollingball.h"
+#include <QtMath>
 
 RollingBall::RollingBall(int n) : OctahedronBall (n)
 {
@@ -21,9 +22,9 @@ void RollingBall::move(float dt)
     for (size_t i = 0; i < vertices.size(); i += 3)
     {
         //Finn trekantens vertices v0, v1, v2
-        gsml::Vector3d v0 = vertices.at(i).getXYZ();
-        gsml::Vector3d v1 = vertices.at(i+1).getXYZ();
-        gsml::Vector3d v2 = vertices.at(i+2).getXYZ();
+        gsml::Vector3d v0 = vertices.at(i).getXYZ() * 10; // Multiplying with 10
+        gsml::Vector3d v1 = vertices.at(i+1).getXYZ() * 10;
+        gsml::Vector3d v2 = vertices.at(i+2).getXYZ() * 10;
         //Finn ballens posisjon i xy-planet
         gsml::Vector3d result = getPosition().barycentricCoordinates(v0, v1, v2);
         //std::cout << i << " = " << result << "\n";
@@ -38,7 +39,9 @@ void RollingBall::move(float dt)
             //beregn normal  // Kunne bli lagret i minne senere, slikt at vi slipper å kalkulere det hver gang.
             gsml::Vector3d normal = findNormal(v0, v1, v2);
             std::cout << normal << " i trekant " << i/3 << "\n";
+
             //beregn akselerasjonvektor - ligning (7)
+            //gsml::Vector3d N_force = m * g * ;
 
             //Oppdatere hastighet og posisjon
 

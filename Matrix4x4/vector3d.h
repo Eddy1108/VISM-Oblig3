@@ -51,10 +51,22 @@ struct Vector3d {
         w.z =  x*v.y - y*v.x;
         return w;
     }
+    //AbsoluteValue
+    Vector3d abs () const {
+        Vector3d w;
+        w.x =  sqrt(pow(x, 2));
+        w.y =  sqrt(pow(y, 2));
+        w.z =  sqrt(pow(z, 2));
+        return w;
+    }
 
     //! Length
     float length() {
         return sqrt(x*x+y*y+z*z);
+    }
+
+    float dotProduct(const Vector3d& v) {
+        return (x*v.x + y*v.y + z*v.z)/( sqrt(pow(x, 2) + pow(y,2) + pow(z,2)) * sqrt(pow(v.x, 2) + pow(v.y,2) + pow(v.z,2)) );
     }
 
     //! Normalize to unit length
