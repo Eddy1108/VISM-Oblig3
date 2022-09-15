@@ -4,7 +4,7 @@
 RollingBall::RollingBall(int n) : OctahedronBall (n)
 {
     //mVelocity = gsml::Vector3d{1.0f, 1.0f, -0.05f};
-    mPosition.translate(0.1,0.1,0.17);
+    mPosition.translate(0.1,0.1,0.2);
     mScale.scale(mRadius*0.1,mRadius*0.1,mRadius*0.1);
 }
 RollingBall::~RollingBall()
@@ -34,8 +34,7 @@ void RollingBall::move(float dt)
         // - med barysentriske koordinater
 
         //Checks if the ball is within the triangle shape (on x and y axis only)
-        if (result.x <= 1 && result.x >= 0 &&
-                result.y <= 1 && result.y >= 0)
+        if (result.x + result.y + result.z >= 0.99999 && result.x + result.y + result.z <= 1.00001)
         {
             std::cout << "er innenfor trekant " << i/3 << "\n";
             //beregn normal  // Kunne vært lagret i minne, slikt at vi slipper å kalkulere det hver render.
@@ -54,7 +53,7 @@ void RollingBall::move(float dt)
             std::cout << "Acceleration: " <<  acceleration << std::endl;
 
             //Oppdatere hastighet og posisjon
-            mVelocity = mVelocity + acceleration;
+            mVelocity = mVelocity + acceleration * 0.1f;
             mPosition.translate(mVelocity.x * dt, mVelocity.y * dt, mVelocity.z * dt);
 
 
