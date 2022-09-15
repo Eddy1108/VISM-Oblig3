@@ -4,14 +4,14 @@
 RollingBall::RollingBall(int n) : OctahedronBall (n)
 {
     //mVelocity = gsml::Vector3d{1.0f, 1.0f, -0.05f};
-    mPosition.translate(0.1,0.1,0.2);
+    mPosition.translate(0.0384,0.0384,0.17);
     mScale.scale(mRadius*0.1,mRadius*0.1,mRadius*0.1);
 }
 RollingBall::~RollingBall()
 {
 
 }
-void RollingBall::move(float dt)
+void RollingBall::move(double* dt)
 {
     std::vector<gsml::Vertex>& vertices = dynamic_cast<TriangleSurface*>(triangle_surface)->get_vertices();
 
@@ -21,40 +21,42 @@ void RollingBall::move(float dt)
     for (size_t i = 0; i < vertices.size(); i += 3)
     {
         //Finn trekantens vertices v0, v1, v2
-        gsml::Vector3d v0 = vertices.at(i).getXYZ(); // Multiplying with 10
+        gsml::Vector3d v0 = vertices.at(i).getXYZ();
         gsml::Vector3d v1 = vertices.at(i+1).getXYZ();
         gsml::Vector3d v2 = vertices.at(i+2).getXYZ();
         //Finn ballens posisjon i xy-planet
         gsml::Vector3d result = getPosition().barycentricCoordinates(v0, v1, v2);
 
-        std::cout << "ball position: " << getPosition() << std::endl;
-        std::cout << "Position v0: " << v0 << ", v1: " << v1 << ", v2: " << v2 << std::endl;
-        std::cout << i << " = " << result << "\n";
+//        std::cout << "ball position: " << getPosition() << std::endl;
+//        std::cout << "Position v0: " << v0 << ", v1: " << v1 << ", v2: " << v2 << std::endl;
+//        std::cout << i << " = " << result << "\n";
         //Sæk etter triangel som ballen er på nå
         // - med barysentriske koordinater
 
         //Checks if the ball is within the triangle shape (on x and y axis only)
         if (result.x + result.y + result.z >= 0.99999 && result.x + result.y + result.z <= 1.00001)
         {
-            std::cout << "er innenfor trekant " << i/3 << "\n";
+//            std::cout << "er innenfor trekant " << i/3 << "\n";
             //beregn normal  // Kunne vært lagret i minne, slikt at vi slipper å kalkulere det hver render.
             gsml::Vector3d planeNormal = findNormal(v0, v1, v2);
-            std::cout << planeNormal << " i trekant " << i/3 << "\n";
+//            std::cout << planeNormal << " i trekant " << i/3 << "\n";
 
             //beregn akselerasjonvektor - ligning (7)
             float alpha = gsml::Vector3d(0,0,1).dotProduct(planeNormal); // Finner vinkel mellom normal til xy-aksen og bakken sin normal
-            //float alpha = planeNormal.Z; // da får man cos(alpha) og ikke alpha
-            std::cout << "Alpha: " << alpha << "\n";
+//            float alpha = planeNormal.Z; // da får man cos(alpha) og ikke alpha
+//            std::cout << "Alpha: " << alpha << "\n";
             gsml::Vector3d N_force = planeNormal* mGravity.abs().z * mMass * cos(alpha);
 
             gsml::Vector3d acceleration = (N_force+(mGravity*mMass)) / mMass;
 
-            std::cout << "Normal Force: " << N_force << std::endl;
+//            std::cout << "Normal Force: " << N_force << std::endl;
             std::cout << "Acceleration: " <<  acceleration << std::endl;
 
             //Oppdatere hastighet og posisjon
-            mVelocity = mVelocity + acceleration * 0.1f;
-            mPosition.translate(mVelocity.x * dt, mVelocity.y * dt, mVelocity.z * dt);
+            mVelocity = mVelocity + acceleration * 0.001;
+//            std::cout << "Velocity: " << mVelocity << std::endl;
+            std::cout <<"dt: " << std::to_string(*dt) << std::endl;
+            mPosition.translate(mVelocity.x * *dt, mVelocity.y * *dt, mVelocity.z * *dt);
 
 
             if (true /*ny indeks != forrige index*/)
@@ -67,7 +69,7 @@ void RollingBall::move(float dt)
             }
         }
         else {
-            std::cout << "er utenfor trekant " << i/3 << "\n";
+            //std::cout << "er utenfor trekant " << i/3 << "\n";
         }
     }
 

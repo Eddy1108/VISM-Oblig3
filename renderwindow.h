@@ -91,7 +91,7 @@ protected:
     //    void wheelEvent(QWheelEvent *event) override{}
 
     //Delta time
-    long mDeltaTime {0};
+    double mDeltaTime {0};
     std::chrono::duration<double> mElapsed_seconds;
 };
 
