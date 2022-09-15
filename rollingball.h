@@ -12,7 +12,7 @@ public:
     ~RollingBall() override;
     void init(GLint matrixUniform) override;
     void draw() override;
-    void move(float dt) override;
+    void move(double* dt) override;
     void setSurface(VisualObject* surface);
     gsml::Vector3d getPosition();
     gsml::Vector3d findNormal(gsml::Vector3d v0, gsml::Vector3d v1, gsml::Vector3d v2);

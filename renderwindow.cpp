@@ -21,7 +21,7 @@
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
 {
-    help.x = 0.5; help.y = -0.5; help.z = 1;
+    help.x = 0.1; help.y = -0.1; help.z = 0.3;
     mLightPosition.x = 5.2f;
     mLightPosition.y = 5.2f;
     mLightPosition.z = 2.0f;
@@ -173,8 +173,9 @@ void RenderWindow::render()
     glUniform3f(mLightPositionUniform, mLightPosition.x, mLightPosition.y, mLightPosition.z);
     // actual draw call
     // demo
+    xyz.draw();
     surface->draw();
-    ball->move(DeltaTime);
+    ball->move(&mDeltaTime);
     ball->draw();
     // checkForGLerrors() because that takes a long time
     // and before swapBuffers(), else it will show the vsync time
@@ -236,6 +237,7 @@ void RenderWindow::calculateFramerate()
             mMainWindow->statusBar()->showMessage(" Time pr FrameDraw: " +
                                                   QString::number(nsecElapsed/1000000.f, 'g', 4) + " ms  |  " +
                                                   "FPS (approximated): " + QString::number(1E9 / nsecElapsed, 'g', 7));
+            mDeltaTime = 1 / (1E9 / nsecElapsed);
             frameCount = 0;     //reset to show a new message in 60 frames
         }
     }
