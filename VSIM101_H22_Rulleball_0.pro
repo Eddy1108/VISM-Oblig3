@@ -36,4 +36,6 @@ SOURCES += \
 
 DISTFILES += \
     dagfragment.frag \
-    dagvertex.vert
+    dagvertex.vert \
+    plainshader.frag \
+    plainshader.vert
