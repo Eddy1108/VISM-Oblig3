@@ -20,12 +20,12 @@ protected:
     VisualObject* triangle_surface{nullptr};
 private:
     gsml::Vector3d old_normal{0.0, 0.0, 1.0};
-    gsml::Vector3d mvelocity_0{0,0,0};
-    gsml::Vector3d mvelocity{0,0,0};
-    gsml::Vector3d macceleration{0,0,0};
+    gsml::Vector3d mVelocity_0{0,0,0};
+    gsml::Vector3d mVelocity{0,0,0};
+    gsml::Vector3d mAcceleration{0,0,0};
     gsml::Vector3d mGravity{0,0,-9.80665};
 
-    float ballMass {17.5f}; //g
-    float ballRadius {17.5f}; // mm
+    float mMass {0.0175f}; //kg
+    float mRadius {0.175f}; // m
 };
 #endif // ROLLINGBALL_H
