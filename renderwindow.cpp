@@ -101,7 +101,7 @@ void RenderWindow::init()
     //general OpenGL stuff:
     glEnable(GL_DEPTH_TEST);    //enables depth sorting - must use GL_DEPTH_BUFFER_BIT in glClear
     //    glEnable(GL_CULL_FACE);     //draws only front side of models - usually what you want -
-    glClearColor(0.4f, 0.4f, 0.4f,1.0f);    //color used in glClear GL_COLOR_BUFFER_BIT
+    //glClearColor(0.4f, 0.4f, 0.4f,1.0f);    //color used in glClear GL_COLOR_BUFFER_BIT
     glClearColor(1.0f, 1.0f, 1.0f,1.0f);    //color used in glClear GL_COLOR_BUFFER_BIT
 
     //Compile shaders:
@@ -109,7 +109,7 @@ void RenderWindow::init()
     //Qt makes a build-folder besides the project folder. That is why we go down one directory
     // (out of the build-folder) and then up into the project folder.
 
-    mShaderProgram = new Shader("../VISM-Oblig3/dagvertex.vert", "../VISM-Oblig3/dagfragment.frag");
+    mShaderProgram = new Shader("../VISM-Oblig3/plainshader.vert", "../VISM-Oblig3/plainshader.frag");
 
     //********************** Making the object to be drawn **********************
 
@@ -124,7 +124,7 @@ void RenderWindow::init()
     mMatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "matrix" );
     mPMatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "pmatrix" );
     mVMatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "vmatrix" );
-    mLightPositionUniform = glGetUniformLocation( mShaderProgram->getProgram(), "light_position" );
+    //mLightPositionUniform = glGetUniformLocation( mShaderProgram->getProgram(), "light_position" );
     glBindVertexArray( 0 );
 
     surface->init(mMatrixUniform);
@@ -170,7 +170,7 @@ void RenderWindow::render()
 
     glUniformMatrix4fv( mPMatrixUniform, 1, GL_TRUE, gsmPMatrix->constData());
     glUniformMatrix4fv( mVMatrixUniform, 1, GL_TRUE, gsmVMatrix->constData());
-    glUniform3f(mLightPositionUniform, mLightPosition.x, mLightPosition.y, mLightPosition.z);
+    //glUniform3f(mLightPositionUniform, mLightPosition.x, mLightPosition.y, mLightPosition.z);
     // actual draw call
     // demo
     surface->draw();

@@ -1,10 +1,10 @@
 #version 330 core
 
-in vec4 color;              //color received from the pipeline (and vertex shader)
-in vec2 UV;
-out vec4 fragmentColor;     //color sent to fragment on screen
+in vec4 col;
+in vec3 vLightWeight;
+out vec4 fragColor;
 
 void main() {
-   fragmentColor = vec4(color.xyz, 1.0);   //color given to current fragment (pixel)
-   //fragmentColor = vec4(1,0,0,0);
+   fragColor = vec4(vLightWeight.rgb, 1.0);
+   fragColor = col;
 }

@@ -35,7 +35,5 @@ SOURCES += \
     xyz.cpp
 
 DISTFILES += \
-    dagfragment.frag \
-    dagvertex.vert \
     plainshader.frag \
     plainshader.vert

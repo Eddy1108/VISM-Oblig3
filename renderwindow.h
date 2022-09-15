@@ -53,7 +53,7 @@ private:
     gsml::Vector3d help;
     RollingBall* ball{nullptr};
 
-    Shader *mShaderProgram;
+    Shader *mShaderProgram {nullptr};
     GLint  mMatrixUniform;
     GLint mPMatrixUniform;  // nytt 23/1
     GLint mVMatrixUniform;  // nytt 23/1
