@@ -36,6 +36,14 @@ struct Vector3d {
         return u;
     }
 
+    Vector3d operator / (const Vector3d& v) const {
+        Vector3d u;
+        u.x = x / v.x;
+        u.y = y / v.y;
+        u.z = z / v.z;
+        return u;
+    }
+
     Vector3d operator - (const Vector3d& v) const {
         Vector3d u;
         u.x = x - v.x;

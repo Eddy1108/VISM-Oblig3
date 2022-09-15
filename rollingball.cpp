@@ -5,7 +5,7 @@ RollingBall::RollingBall(int n) : OctahedronBall (n)
 {
     //mVelocity = gsml::Vector3d{1.0f, 1.0f, -0.05f};
     mPosition.translate(0.0384,0.0384,0.17);
-    mScale.scale(mRadius,mRadius,mRadius);
+    mScale.scale(mRadius*0.33,mRadius*0.33,mRadius*0.33);
 }
 RollingBall::~RollingBall()
 {
@@ -36,7 +36,11 @@ void RollingBall::move(double* dt)
         //Checks if the ball is within the triangle shape (on x and y axis only)
         if (barycResult.x + barycResult.y + barycResult.z >= 0.99999 && barycResult.x + barycResult.y + barycResult.z <= 1.00001)
         {
-//            std::cout << "er innenfor trekant " << i/3 << "\n";
+            if(oldTriangleIndex == -1)
+                oldTriangleIndex = i;
+
+            int newTriangleIndex = i;
+
             //beregn normal  // Kunne vært lagret i minne, slikt at vi slipper å kalkulere det hver render.
             gsml::Vector3d triangleNormal = findNormal(v0, v1, v2);
 //            std::cout << planeNormal << " i trekant " << i/3 << "\n";
@@ -53,7 +57,7 @@ void RollingBall::move(double* dt)
             std::cout << "Acceleration: " <<  acceleration << std::endl;
 
             //Oppdatere hastighet og posisjon
-            mVelocity = mVelocity + acceleration * 0.001;
+            mVelocity = mVelocity + acceleration * 0.01;
 //            std::cout << "Velocity: " << mVelocity << std::endl;
             std::cout <<"dt: " << std::to_string(*dt) << std::endl;
 
@@ -63,34 +67,30 @@ void RollingBall::move(double* dt)
             //Fix clipping
             gsml::Vector3d p_0 = v1;
             gsml::Vector3d p = getPosition();
-            gsml::Vector3d temp = p - p_0;
 
-            float distance = temp.dotProduct(triangleNormal);
+            float distance = triangleNormal.dotProduct( p - p_0 );
             std::cout << "distance: " << distance << std::endl;
 
-            if(distance < mRadius && distance >= 0){
+            if(distance <= mRadius /*&& distance >= 0*/){
                 gsml::Vector3d offsetResult = triangleNormal * (mRadius - distance);
                 //std::cout << "offset: " << offsetResult << std::endl;
                 mPosition.translate(offsetResult.x, offsetResult.y, offsetResult.z);
             }
 
-            //gsml::Vector3d offsetResult = triangleNormal * ( -distance + mRadius );
-            //std::cout << "offset: " << offsetResult << std::endl;
-            //mPosition.translate(offsetResult.x, offsetResult.y, offsetResult.z);
 
-
-            //if(yVector.abs <= r){
-
-            //}
-
-            if (true /*ny indeks != forrige index*/)
+            if (newTriangleIndex != oldTriangleIndex /*ny indeks != forrige index*/) // ballen har rullet over paa nytt triangel
             {
-                // ballen har rullet over paa nytt triangel
+                //gsml::Vector3d distanceTraveled = mVelocity * *dt;
+
                 // beregn normalen til kollisjonsplanet, se ligning (9)
+                (v0 + v1).getNormalized(); // sikkert feil måte?
+
                 // Korrigere posisjon oppover i normalens retning
                 // Oppdater hastighetsvektoren, se ligning (8)
                 // Oppdater posisjon i retning den nye hastighetsvektoren
             }
+            oldTriangleIndex = newTriangleIndex;
+            oldNormal = triangleNormal;
         }
         else {
             //std::cout << "er utenfor trekant " << i/3 << "\n";
@@ -109,6 +109,11 @@ gsml::Vector3d RollingBall::findNormal(gsml::Vector3d v0, gsml::Vector3d v1, gsm
 
     return result.getNormalized();
 }
+
+//gsml::Vector3d RollingBall::findNormal(gsml::Vector3d v0, gsml::Vector3d v1)
+//{
+//    return (v0 + v1).getNormalized();
+//}
 
 void RollingBall::setSurface(VisualObject *surface)
 {
