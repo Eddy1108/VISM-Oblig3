@@ -42,19 +42,18 @@ private slots:
 private:
     void init();
     XYZ xyz;
-    TriangleSurface surf;
-    TriangleSurface* surf2 {nullptr};
+    TriangleSurface* surface{nullptr};
 
     //Tri* Triangle1;
     //std::vector<Tri> TriVector;
 
 
-    QOpenGLContext *mContext {nullptr};
+    QOpenGLContext *mContext{nullptr};
     bool mInitialized;
     gsml::Vector3d help;
-    RollingBall* ball {nullptr};
+    RollingBall* ball{nullptr};
 
-    Shader *mShaderProgram{nullptr};
+    Shader *mShaderProgram;
     GLint  mMatrixUniform;
     GLint mPMatrixUniform;  // nytt 23/1
     GLint mVMatrixUniform;  // nytt 23/1

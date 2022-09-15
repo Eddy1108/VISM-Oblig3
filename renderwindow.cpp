@@ -45,9 +45,9 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     //Triangle1->TriangleVectorFromFileLocal("../VISM-Oblig3/cleanTrekanter.txt");
 
     // Demo
-    surf2 = new TriangleSurface("../VISM-Oblig3/platform.txt");
+    surface = new TriangleSurface("../VISM-Oblig3/platform.txt");
     ball = new RollingBall(3);
-    dynamic_cast<RollingBall*>(ball)->setSurface(surf2);
+    dynamic_cast<RollingBall*>(ball)->setSurface(surface);
 
     gsmMMatrix = new gsml::Matrix4x4;
     gsmMMatrix->setToIdentity();
@@ -123,7 +123,7 @@ void RenderWindow::init()
     mLightPositionUniform = glGetUniformLocation( mShaderProgram->getProgram(), "light_position" );
     glBindVertexArray( 0 );
 
-    surf2->init(mMatrixUniform);
+    surface->init(mMatrixUniform);
     ball->init(mMatrixUniform);
     xyz.init(mMatrixUniform);
 }
@@ -167,7 +167,7 @@ void RenderWindow::render()
     glUniform3f(mLightPositionUniform, mLightPosition.x, mLightPosition.y, mLightPosition.z);
     // actual draw call
     // demo
-    surf2->draw();
+    surface->draw();
     ball->move(0.017f);
     ball->draw();
     // checkForGLerrors() because that takes a long time
@@ -289,5 +289,5 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         help.z += 0.1;
     if (event->key() == Qt::Key_E)
         help.z -= 0.1;
-    qDebug() << help.x << help.y << help.z;
+    //qDebug() << help.x << help.y << help.z;
 }
