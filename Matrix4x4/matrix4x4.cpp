@@ -1,6 +1,6 @@
 // Dag Nylund 31/1/18 - 1/2/18
 // gsml fra 5/11/20
-#include "../Matrix4x4/Matrix4x4.h"
+#include "../Matrix4x4/matrix4x4.h"
 
 #include <iomanip>
 #include <cmath>
