@@ -51,6 +51,14 @@ struct Vector3d {
         w.z =  x*v.y - y*v.x;
         return w;
     }
+    //AbsoluteValue
+    Vector3d abs () const {
+        Vector3d w;
+        w.x =  sqrt(pow(x, 2));
+        w.y =  sqrt(pow(y, 2));
+        w.z =  sqrt(pow(z, 2));
+        return w;
+    }
 
     //! Length
     float length() {
