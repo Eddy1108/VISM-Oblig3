@@ -174,7 +174,7 @@ void RenderWindow::render()
     // actual draw call
     // demo
     surface->draw();
-    ball->move(0.017f);
+    ball->move(DeltaTime);
     ball->draw();
     // checkForGLerrors() because that takes a long time
     // and before swapBuffers(), else it will show the vsync time
@@ -182,6 +182,10 @@ void RenderWindow::render()
 
     auto end = std::chrono::system_clock::now();
     mElapsed_seconds = end-start;
+
+    DeltaTime = std::chrono::duration<double>(mElapsed_seconds).count();
+    //std::cout << "\n\ndt: " << DeltaTime << "\n\n";       //check deltatime, returns seconds
+
     // using our expanded OpenGL debugger to check if everything is OK.
     // checkForGLerrors();
 
