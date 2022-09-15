@@ -87,6 +87,10 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
     //    void keyReleaseEvent(QKeyEvent *event) override{}
     //    void wheelEvent(QWheelEvent *event) override{}
+
+    //Delta time
+    long mDeltaTime {0};
+    std::chrono::duration<double> mElapsed_seconds;
 };
 
 #endif // RENDERWINDOW_H

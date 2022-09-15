@@ -28,6 +28,14 @@ struct Vector3d {
         return u;
     }
 
+    Vector3d operator / (const float c) const {
+        Vector3d u;
+        u.x = x / c;
+        u.y = y / c;
+        u.z = z / c;
+        return u;
+    }
+
     Vector3d operator - (const Vector3d& v) const {
         Vector3d u;
         u.x = x - v.x;
@@ -92,9 +100,9 @@ struct Vector3d {
         return result;
     }
 
-    //! Dot product
-    float operator * (const Vector3d& v) const{
-        return x*v.x + y*v.y + z*v.z;
+    /// Multiply
+    Vector3d operator * (const Vector3d& v) const{
+        return Vector3d{x*v.x, y*v.y, z*v.z};
     }
 
     //! Scaling

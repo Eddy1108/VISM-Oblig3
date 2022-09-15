@@ -14,10 +14,14 @@
 
 #include "rollingball.h"
 
+#include <iostream>
+#include <chrono>
+#include <ctime>
+
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
 {
-    help.x = 5; help.y = -5; help.z = 3;
+    help.x = 0.5; help.y = -0.5; help.z = 1;
     mLightPosition.x = 5.2f;
     mLightPosition.y = 5.2f;
     mLightPosition.z = 2.0f;
@@ -131,6 +135,8 @@ void RenderWindow::init()
 ///Called each frame - doing the rendering
 void RenderWindow::render()
 {
+    auto start = std::chrono::system_clock::now();
+
     mTimeStart.restart(); //restart FPS clock
     mContext->makeCurrent(this); //must be called every frame (every time mContext->swapBuffers is called)
 
@@ -158,7 +164,7 @@ void RenderWindow::render()
     //gsmVMatrix->rotate(help, 0, 1, 0); help +=1;
     //gsml::Vector3d eye{2.5,2.5,2};
     gsml::Vector3d eye{help.x,help.y,help.z};
-    gsml::Vector3d at{0 ,0 , 0};
+    gsml::Vector3d at{ball->getPosition()};
     gsml::Vector3d up{0,0,1};
     gsmVMatrix->lookAt(eye, at, up);
 
@@ -174,6 +180,8 @@ void RenderWindow::render()
     // and before swapBuffers(), else it will show the vsync time
     calculateFramerate();
 
+    auto end = std::chrono::system_clock::now();
+    mElapsed_seconds = end-start;
     // using our expanded OpenGL debugger to check if everything is OK.
     // checkForGLerrors();
 
@@ -278,16 +286,16 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     }
     if (event->key() == Qt::Key_A)
         //mia.move(0.1,0,0);
-        help.x -= 0.1;
+        help.x -= 0.01;
     if (event->key() == Qt::Key_D)
-        help.x += 0.1;
+        help.x += 0.01;
     if (event->key() == Qt::Key_W)
-        help.y += 0.1;
+        help.y += 0.01;
     if (event->key() == Qt::Key_S)
-        help.y -= 0.1;
+        help.y -= 0.01;
     if (event->key() == Qt::Key_Q)
-        help.z += 0.1;
+        help.z += 0.01;
     if (event->key() == Qt::Key_E)
-        help.z -= 0.1;
+        help.z -= 0.01;
     //qDebug() << help.x << help.y << help.z;
 }
