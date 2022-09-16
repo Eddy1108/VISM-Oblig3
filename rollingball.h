@@ -21,13 +21,11 @@ protected:
 private:
     int oldTriangleIndex{-1};
     gsml::Vector3d oldNormal{0.0, 0.0, 1.0};
-    gsml::Vector3d mVelocity_0{0,0,0};
-    gsml::Vector3d mVelocity{0,0,0};
+    gsml::Vector3d mVelocity{15,0,0};
     gsml::Vector3d mAcceleration{0,0,0};
     gsml::Vector3d mGravity{0,0,-9.80665};
 
     float mMass {0.0175f}; //kg
-    //float mRadius {0.175f}; // m
-    float mRadius {0.03f};
+    float mRadius {0.0175f}; // m
 };
 #endif // ROLLINGBALL_H

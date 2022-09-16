@@ -21,7 +21,7 @@
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
 {
-    help.x = 0.2; help.y = 0.0; help.z = 0.3;
+    help.x = 0.0; help.y = -0.2; help.z = 0.2;
     mLightPosition.x = 5.2f;
     mLightPosition.y = 5.2f;
     mLightPosition.z = 2.0f;
