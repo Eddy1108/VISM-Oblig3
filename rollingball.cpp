@@ -5,7 +5,7 @@ RollingBall::RollingBall(int n) : OctahedronBall (n)
 {
     //mVelocity = gsml::Vector3d{1.0f, 1.0f, -0.05f};
     mPosition.translate(0.0384,0.0384,0.17);
-    mScale.scale(mRadius*0.33,mRadius*0.33,mRadius*0.33);
+    mScale.scale(mRadius,mRadius,mRadius);
 }
 RollingBall::~RollingBall()
 {
@@ -57,7 +57,7 @@ void RollingBall::move(double* dt)
             std::cout << "Acceleration: " <<  acceleration << std::endl;
 
             //Oppdatere hastighet og posisjon
-            mVelocity = mVelocity + acceleration * 0.1; // Multiplying here to reduce speed when testing
+            mVelocity = mVelocity + acceleration * 0.1f; // Multiplying here to reduce speed when testing
 //            std::cout << "Velocity: " << mVelocity << std::endl;
             std::cout <<"dt: " << std::to_string(*dt) << std::endl;
 
@@ -85,11 +85,13 @@ void RollingBall::move(double* dt)
 
                 // beregn normalen til kollisjonsplanet, se ligning (9)
                 gsml::Vector3d collisionPlaneNormal = (triangleNormal + oldNormal) / (triangleNormal + oldNormal).length();
-                //std::cout <<"CollisionPlanenormal " << collisionPlaneNormal << std::endl;
+                std::cout <<"CollisionPlanenormal " << collisionPlaneNormal << std::endl;
                 // Korrigere posisjon oppover i normalens retning
 
 
-                gsml::Vector3d VelocityAfter = mVelocity - (mVelocity * collisionPlaneNormal) * 2 * collisionPlaneNormal;
+                gsml::Vector3d VelocityAfter = mVelocity - collisionPlaneNormal * (mVelocity.dotProduct(collisionPlaneNormal)) * 2;
+
+                //VelocityAfter = VelocityAfter * gsml::Vector3d(1,1,-1);
 
                 std::cout << "Velocity: " << mVelocity << std::endl;
                 std::cout << "VelocityAfter: " << VelocityAfter << std::endl;
