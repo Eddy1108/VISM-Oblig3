@@ -21,7 +21,7 @@
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
 {
-    help.x = 0.0; help.y = -0.2; help.z = 0.2;
+    help.x = 0.4; help.y = -0.4; help.z = 0.5;
     mLightPosition.x = 5.2f;
     mLightPosition.y = 5.2f;
     mLightPosition.z = 2.0f;
@@ -164,8 +164,8 @@ void RenderWindow::render()
     //gsmVMatrix->rotate(help, 0, 1, 0); help +=1;
     //gsml::Vector3d eye{2.5,2.5,2};
     gsml::Vector3d eye{help.x,help.y,help.z};
-    //gsml::Vector3d at{ball->getPosition()};
-    gsml::Vector3d at{0.3,0.3,0};
+    gsml::Vector3d at{ball->getPosition()};
+    //gsml::Vector3d at{0.3,0.3,0};
     gsml::Vector3d up{0,0,1};
     gsmVMatrix->lookAt(eye, at, up);
 

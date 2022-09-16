@@ -4,6 +4,8 @@
 RollingBall::RollingBall(int n) : OctahedronBall (n)
 {
     mPosition.translate(0.0384,0.0384,0.17);
+    //mPosition.translate(0.822, 0.008, 0.08);
+
     mScale.scale(mRadius,mRadius,mRadius);
 }
 RollingBall::~RollingBall()
