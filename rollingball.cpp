@@ -57,7 +57,7 @@ void RollingBall::move(double* dt)
             std::cout << "Acceleration: " <<  acceleration << std::endl;
 
             //Oppdatere hastighet og posisjon
-            mVelocity = mVelocity + acceleration * 0.01;
+            mVelocity = mVelocity + acceleration * 0.1; // Multiplying here to reduce speed when testing
 //            std::cout << "Velocity: " << mVelocity << std::endl;
             std::cout <<"dt: " << std::to_string(*dt) << std::endl;
 
@@ -71,21 +71,32 @@ void RollingBall::move(double* dt)
             float distance = triangleNormal.dotProduct( p - p_0 );
             std::cout << "distance: " << distance << std::endl;
 
-            if(distance <= mRadius /*&& distance >= 0*/){
+            if(distance <= mRadius && distance >= 0){
                 gsml::Vector3d offsetResult = triangleNormal * (mRadius - distance);
                 //std::cout << "offset: " << offsetResult << std::endl;
                 mPosition.translate(offsetResult.x, offsetResult.y, offsetResult.z);
             }
 
+            std::cout << "Velocity: " << mVelocity << std::endl;
 
             if (newTriangleIndex != oldTriangleIndex /*ny indeks != forrige index*/) // ballen har rullet over paa nytt triangel
             {
                 //gsml::Vector3d distanceTraveled = mVelocity * *dt;
 
                 // beregn normalen til kollisjonsplanet, se ligning (9)
-                (v0 + v1).getNormalized(); // sikkert feil måte?
-
+                gsml::Vector3d collisionPlaneNormal = (triangleNormal + oldNormal) / (triangleNormal + oldNormal).length();
+                //std::cout <<"CollisionPlanenormal " << collisionPlaneNormal << std::endl;
                 // Korrigere posisjon oppover i normalens retning
+
+
+                gsml::Vector3d VelocityAfter = mVelocity - (mVelocity * collisionPlaneNormal) * 2 * collisionPlaneNormal;
+
+                std::cout << "Velocity: " << mVelocity << std::endl;
+                std::cout << "VelocityAfter: " << VelocityAfter << std::endl;
+                mVelocity = VelocityAfter;
+
+                //gsml::Vector3d m = gsml::Vector3d::cross(vertices[oldTriangleIndex].to3DVec()*vertices[oldTriangleIndex+1].to3DVec(),vertices[oldTriangleIndex].to3DVec()*vertices[oldTriangleIndex+2].to3DVec());
+                //gsml::Vector3d normalvector = {(m+thisNormalVector)/(m+thisNormalVector).length()};
                 // Oppdater hastighetsvektoren, se ligning (8)
                 // Oppdater posisjon i retning den nye hastighetsvektoren
             }
@@ -119,6 +130,10 @@ void RollingBall::setSurface(VisualObject *surface)
 {
     triangle_surface = surface;
 }
+/*
+gsml::Vector3d project(gsml::Vector3d v, gsml::Vector3d u){
+    return (v * u) / pow(u.getNormalized(),2);
+}*/
 
 gsml::Vector3d RollingBall::getPosition()
 {
