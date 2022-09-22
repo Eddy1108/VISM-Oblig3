@@ -50,6 +50,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     // Demo
     surface = new TriangleSurface("../VISM-Oblig3/platform.txt");
+    //surface = new TriangleSurface("../VISM-Oblig3/FlateTest.txt");
     ball = new RollingBall(3);
     dynamic_cast<RollingBall*>(ball)->setSurface(surface);
 
@@ -185,7 +186,7 @@ void RenderWindow::render()
     auto end = std::chrono::system_clock::now();
     mElapsed_seconds = end-start;
 
-    DeltaTime = std::chrono::duration<double>(mElapsed_seconds).count();
+    mDeltaTime = std::chrono::duration<double>(mElapsed_seconds).count();
     //std::cout << "\n\ndt: " << DeltaTime << "\n\n";       //check deltatime, returns seconds
 
     // using our expanded OpenGL debugger to check if everything is OK.
@@ -238,7 +239,6 @@ void RenderWindow::calculateFramerate()
             mMainWindow->statusBar()->showMessage(" Time pr FrameDraw: " +
                                                   QString::number(nsecElapsed/1000000.f, 'g', 4) + " ms  |  " +
                                                   "FPS (approximated): " + QString::number(1E9 / nsecElapsed, 'g', 7));
-            mDeltaTime = 1 / (1E9 / nsecElapsed);
             frameCount = 0;     //reset to show a new message in 60 frames
         }
     }

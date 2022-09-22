@@ -24,6 +24,7 @@ public:
     virtual void move(float dt) { }
     virtual void move(double* dt) { }
     virtual void move(float dx, float dy, float dz) { }
+    GLint getUniform(){return mMatrixUniform;}
 protected:
     std::vector<gsml::Vertex> mVertices;
     GLuint mVAO{0};
