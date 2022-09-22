@@ -4,7 +4,7 @@
 
 RollingBall::RollingBall(int n) : OctahedronBall (n)
 {
-    mPosition.translate(0.0384,0.0384,0.17); // Starter i venstre hjørne
+    mPosition.translate(0.0384,0.0384,0.37); // Starter i venstre hjørne
     //mPosition.translate(0.822, 0.008, 0.08); // Starter i høyre hjørne
     //mPosition.translate(0.01, 0, 0.5f);
 
@@ -23,7 +23,7 @@ RollingBall::~RollingBall()
 void RollingBall::move(double* dt)
 {
 
-    int trianglesBallsisWithin{0};
+    int trianglesBallIsWithin{0};
     std::vector<gsml::Vertex>& vertices = dynamic_cast<TriangleSurface*>(triangle_surface)->get_vertices();
 
     //mMatrix = mPosition * mScale; //Remove later
@@ -38,82 +38,92 @@ void RollingBall::move(double* dt)
         //Finn ballens posisjon i xy-planet
         gsml::Vector3d barycResult = getPosition().barycentricCoordinates(v0, v1, v2);
 
-//        std::cout << "ball position: " << getPosition() << std::endl;
-//        std::cout << "Position v0: " << v0 << ", v1: " << v1 << ", v2: " << v2 << std::endl;
-//        std::cout << i << " = " << result << "\n";
         //Sæk etter triangel som ballen er på nå
         // - med barysentriske koordinater
 
         //Checks if the ball is within the triangle shape (on x and y axis only)
         if (barycResult.x + barycResult.y + barycResult.z >= 0.99999 && barycResult.x + barycResult.y + barycResult.z <= 1.00001)
         {
-            trianglesBallsisWithin++;
-            if(oldTriangleIndex == -1)
-                oldTriangleIndex = i;
+            //Sjekk om ballen er innenfor på z aksen
 
-            int newTriangleIndex = i;
 
             //beregn normal  // Kunne vært lagret i minne, slikt at vi slipper å kalkulere det hver render.
             gsml::Vector3d triangleNormal = findNormal(v0, v1, v2);
 
-            //beregn akselerasjonvektor - ligning (7)
-            float cosAlpha = gsml::Vector3d(0,0,1).dotProduct(triangleNormal); // Finner vinkel mellom normal til xy-aksen og bakken sin normal
+            gsml::Vector3d currentPos = getPosition();
 
-            gsml::Vector3d N_force = triangleNormal* mGravity.abs().z * mMass * cosAlpha;
+            float distance1 = triangleNormal.dotProduct( currentPos - v1 ) - mRadius;
+            std::cout << "distance1: " << distance1 << std::endl;
 
-            std::cout << "N Force: "<< N_force << std::endl;
-            std::cout << "Cos A: "<< cos(cosAlpha) << std::endl;
-            //N_force = 0;
-            mAcceleration = (N_force+(mGravity*mMass)) / mMass;
-
-            std::cout << "Acceleration: " <<  mAcceleration << std::endl;
-
-            //Oppdatere hastighet og posisjon
-            mVelocity = mVelocity + mAcceleration * 1; // Multiplying here to reduce speed when testing
-            std::cout <<"dt: " << std::to_string(*dt) << std::endl;
-
-            mPosition.translate(mVelocity.x * *dt * timeSlowDown, mVelocity.y * *dt * timeSlowDown, mVelocity.z * *dt * timeSlowDown);
-
-            //Fix clipping
-            gsml::Vector3d p_0 = v1;
-            gsml::Vector3d p = getPosition();
-
-            float distance = triangleNormal.dotProduct( p - p_0 );
-            std::cout << "distance: " << distance << std::endl;
-
-            //Moves the ball up, so that it snaps to the triangle
-            if(sqrt(distance * distance) <= mRadius/* && sqrt(distance * distance) >= 0*/){
-                gsml::Vector3d offsetResult = triangleNormal * (mRadius - distance);
-                mPosition.translate(offsetResult.x, offsetResult.y, offsetResult.z);
-            }
-
-            std::cout << "Velocity: " << mVelocity << std::endl;
-
-            if (newTriangleIndex != oldTriangleIndex /*ny indeks != forrige index*/) // ballen har rullet over paa nytt triangel
+            if(distance1 <= 0.0001) // Ball is within on z axis
             {
-                //gsml::Vector3d distanceTraveled = mVelocity * *dt;
+                trianglesBallIsWithin++;
 
-                // beregn normalen til kollisjonsplanet, se ligning (9)
-                gsml::Vector3d collisionPlaneNormal = (triangleNormal + oldNormal) / (triangleNormal + oldNormal).length();
-                std::cout <<"CollisionPlanenormal " << collisionPlaneNormal << std::endl;
-                // Korrigere posisjon oppover i normalens retning
+                //beregn akselerasjonvektor - ligning (7)
+                float cosAlpha = gsml::Vector3d(0,0,1).dotProduct(triangleNormal); // Finner vinkel mellom normal til xy-aksen og bakken sin normal
 
+                gsml::Vector3d N_force = triangleNormal* mGravity.abs().z * mMass * cosAlpha;
 
-                gsml::Vector3d VelocityAfter = mVelocity - collisionPlaneNormal * (mVelocity.dotProduct(collisionPlaneNormal)) * 2;
+                std::cout << "N Force: "<< N_force << std::endl;
+                std::cout << "Cos A: "<< cos(cosAlpha) << std::endl;
+                //N_force = 0;
+                mAcceleration = (N_force+(mGravity*mMass)) / mMass;
 
-                //VelocityAfter = VelocityAfter + gsml::Vector3d(0,0,-3.3);
+                std::cout << "Acceleration: " <<  mAcceleration << std::endl;
+
+                //Oppdatere hastighet og posisjon
+                mVelocity = mVelocity + mAcceleration * 1; // Multiplying here to reduce speed when testing
+                std::cout <<"dt: " << std::to_string(*dt) << std::endl;
+
+                mPosition.translate(mVelocity.x * *dt * timeSlowDown, mVelocity.y * *dt * timeSlowDown, mVelocity.z * *dt * timeSlowDown);
+
+                //Fix clipping
+                gsml::Vector3d p_0 = v1;
+                gsml::Vector3d p = getPosition();
+
+                float distance = triangleNormal.dotProduct( p - p_0 );
+                std::cout << "distance: " << distance << std::endl;
+
+                //Moves the ball up, so that it snaps to the triangle
+                if(sqrt(distance * distance) <= mRadius/* && sqrt(distance * distance) >= 0*/){
+                    gsml::Vector3d offsetResult = triangleNormal * (mRadius - distance);
+                    mPosition.translate(offsetResult.x, offsetResult.y, offsetResult.z);
+                }
 
                 std::cout << "Velocity: " << mVelocity << std::endl;
-                std::cout << "VelocityAfter: " << VelocityAfter << std::endl;
-                mVelocity = VelocityAfter;
 
-                //gsml::Vector3d m = gsml::Vector3d::cross(vertices[oldTriangleIndex].to3DVec()*vertices[oldTriangleIndex+1].to3DVec(),vertices[oldTriangleIndex].to3DVec()*vertices[oldTriangleIndex+2].to3DVec());
-                //gsml::Vector3d normalvector = {(m+thisNormalVector)/(m+thisNormalVector).length()};
-                // Oppdater hastighetsvektoren, se ligning (8)
-                // Oppdater posisjon i retning den nye hastighetsvektoren
+                // Ball has crossed over to a new triangle
+                if(oldTriangleIndex == -1)
+                    oldTriangleIndex = i;
+
+                int newTriangleIndex = i;
+
+                if (newTriangleIndex != oldTriangleIndex /*ny indeks != forrige index*/)
+                {
+                    //gsml::Vector3d distanceTraveled = mVelocity * *dt;
+
+                    // beregn normalen til kollisjonsplanet, se ligning (9)
+                    gsml::Vector3d collisionPlaneNormal = (triangleNormal + oldNormal) / (triangleNormal + oldNormal).length();
+                    std::cout <<"CollisionPlanenormal " << collisionPlaneNormal << std::endl;
+                    // Korrigere posisjon oppover i normalens retning
+
+
+                    gsml::Vector3d VelocityAfter = mVelocity - collisionPlaneNormal * (mVelocity.dotProduct(collisionPlaneNormal)) * 2;
+
+                    //VelocityAfter = VelocityAfter + gsml::Vector3d(0,0,-3.3);
+
+                    std::cout << "Velocity: " << mVelocity << std::endl;
+                    std::cout << "VelocityAfter: " << VelocityAfter << std::endl;
+                    mVelocity = VelocityAfter;
+
+                    //gsml::Vector3d m = gsml::Vector3d::cross(vertices[oldTriangleIndex].to3DVec()*vertices[oldTriangleIndex+1].to3DVec(),vertices[oldTriangleIndex].to3DVec()*vertices[oldTriangleIndex+2].to3DVec());
+                    //gsml::Vector3d normalvector = {(m+thisNormalVector)/(m+thisNormalVector).length()};
+                    // Oppdater hastighetsvektoren, se ligning (8)
+                    // Oppdater posisjon i retning den nye hastighetsvektoren
+                }
+                oldTriangleIndex = newTriangleIndex;
+                oldNormal = triangleNormal;
             }
-            oldTriangleIndex = newTriangleIndex;
-            oldNormal = triangleNormal;
         }
         else {
             // Calculate ball in free fall
@@ -123,11 +133,10 @@ void RollingBall::move(double* dt)
         }
     }
     // Freefall
-    if(trianglesBallsisWithin == 0){
+    if(trianglesBallIsWithin == 0){
         mAcceleration = mGravity;
         //Oppdatere hastighet og posisjon
         mVelocity = mVelocity + mAcceleration; // Multiplying here to reduce speed when testing
-        std::cout <<"dt: " << std::to_string(*dt) << std::endl;
         mPosition.translate(mVelocity.x * *dt * timeSlowDown, mVelocity.y * *dt * timeSlowDown, mVelocity.z * *dt * timeSlowDown);
     }
 
