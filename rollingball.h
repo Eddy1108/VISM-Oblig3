@@ -30,7 +30,7 @@ private:
     float mMass {0.0175f}; //kg
     float mRadius {0.0175f}; // m
 
-    float timeSlowDown {0.1f};
+    float timeSlowDown {0.0005};
 
     //Debug
     Line* mVelocityLine {nullptr};

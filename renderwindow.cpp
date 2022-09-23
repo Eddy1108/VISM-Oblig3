@@ -18,6 +18,8 @@
 #include <chrono>
 #include <ctime>
 
+#include "convertlazfile.h"
+
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
 {
@@ -60,6 +62,11 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     gsmVMatrix->setToIdentity();
     gsmPMatrix = new gsml::Matrix4x4;
     gsmPMatrix->setToIdentity();
+
+    // LAZ file Converter
+    //ConvertLAZfile* lazConverter = new ConvertLAZfile("../VISM-Oblig3/AnkerskogenFixed.txt","AnkerskogenResult.txt");
+    //lazConverter->Process();
+    //delete lazConverter;
 }
 
 RenderWindow::~RenderWindow()

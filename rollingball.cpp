@@ -4,9 +4,9 @@
 
 RollingBall::RollingBall(int n) : OctahedronBall (n)
 {
-    mPosition.translate(0.0384,0.0384,0.37); // Starter i venstre hjørne
+    //mPosition.translate(0.0384,0.0384,0.17); // Starter i venstre hjørne
     //mPosition.translate(0.822, 0.008, 0.08); // Starter i høyre hjørne
-    //mPosition.translate(0.01, 0, 0.5f);
+    mPosition.translate(0.04, 0.04, 0.5f);
 
     mScale.scale(mRadius,mRadius,mRadius);
 
@@ -26,9 +26,6 @@ void RollingBall::move(double* dt)
     int trianglesBallIsWithin{0};
     std::vector<gsml::Vertex>& vertices = dynamic_cast<TriangleSurface*>(triangle_surface)->get_vertices();
 
-    //mMatrix = mPosition * mScale; //Remove later
-
-
     for (size_t i = 0; i < vertices.size(); i += 3)
     {
         //Finn trekantens vertices v0, v1, v2
@@ -38,15 +35,11 @@ void RollingBall::move(double* dt)
         //Finn ballens posisjon i xy-planet
         gsml::Vector3d barycResult = getPosition().barycentricCoordinates(v0, v1, v2);
 
-        //Sæk etter triangel som ballen er på nå
+        //Søk etter triangel som ballen er på nå
         // - med barysentriske koordinater
-
         //Checks if the ball is within the triangle shape (on x and y axis only)
         if (barycResult.x + barycResult.y + barycResult.z >= 0.99999 && barycResult.x + barycResult.y + barycResult.z <= 1.00001)
         {
-            //Sjekk om ballen er innenfor på z aksen
-
-
             //beregn normal  // Kunne vært lagret i minne, slikt at vi slipper å kalkulere det hver render.
             gsml::Vector3d triangleNormal = findNormal(v0, v1, v2);
 
@@ -55,7 +48,8 @@ void RollingBall::move(double* dt)
             float distance1 = triangleNormal.dotProduct( currentPos - v1 ) - mRadius;
             std::cout << "distance1: " << distance1 << std::endl;
 
-            if(distance1 <= 0.0001) // Ball is within on z axis
+            // Check if ball is within z axis, or moved below triangle.
+            if(distance1 <= 0.0001)
             {
                 trianglesBallIsWithin++;
 
@@ -92,13 +86,23 @@ void RollingBall::move(double* dt)
 
                 std::cout << "Velocity: " << mVelocity << std::endl;
 
-                // Ball has crossed over to a new triangle
-                if(oldTriangleIndex == -1)
-                    oldTriangleIndex = i;
 
                 int newTriangleIndex = i;
 
-                if (newTriangleIndex != oldTriangleIndex /*ny indeks != forrige index*/)
+                // Flip Velocity
+                // Ball has crossed over to a new triangle
+                if(oldTriangleIndex == -1)
+                {
+                    //Ball Bounces
+                    gsml::Vector3d VelocityAfter = mVelocity - triangleNormal * mVelocity.dotProduct(triangleNormal)  * 2;
+
+                    std::cout << "Velocity: " << mVelocity << std::endl;
+                    std::cout << "VelocityAfter: " << VelocityAfter << std::endl;
+                    mVelocity = VelocityAfter;
+
+                }
+                else
+                if (newTriangleIndex != oldTriangleIndex) //ny indeks != forrige index
                 {
                     //gsml::Vector3d distanceTraveled = mVelocity * *dt;
 
@@ -125,12 +129,6 @@ void RollingBall::move(double* dt)
                 oldNormal = triangleNormal;
             }
         }
-        else {
-            // Calculate ball in free fall
-            //beregn normal  // Kunne vært lagret i minne, slikt at vi slipper å kalkulere det hver render.
-            //beregn akselerasjonvektor - ligning (7)
-
-        }
     }
     // Freefall
     if(trianglesBallIsWithin == 0){
@@ -138,6 +136,7 @@ void RollingBall::move(double* dt)
         //Oppdatere hastighet og posisjon
         mVelocity = mVelocity + mAcceleration; // Multiplying here to reduce speed when testing
         mPosition.translate(mVelocity.x * *dt * timeSlowDown, mVelocity.y * *dt * timeSlowDown, mVelocity.z * *dt * timeSlowDown);
+        //oldTriangleIndex = -1;
     }
 
 
