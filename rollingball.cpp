@@ -6,7 +6,7 @@ RollingBall::RollingBall(int n) : OctahedronBall (n)
 {
     //mPosition.translate(0.0384,0.0384,0.17); // Starter i venstre hjørne
     //mPosition.translate(0.822, 0.008, 0.08); // Starter i høyre hjørne
-    mPosition.translate(0.04, 0.04, 0.5f);
+    mPosition.translate(1.04,1.04, 0.5f);
 
     mScale.scale(mRadius,mRadius,mRadius);
 
@@ -22,7 +22,6 @@ RollingBall::~RollingBall()
 }
 void RollingBall::move(double* dt)
 {
-
     int trianglesBallIsWithin{0};
     std::vector<gsml::Vertex>& vertices = dynamic_cast<TriangleSurface*>(triangle_surface)->get_vertices();
 
@@ -46,10 +45,12 @@ void RollingBall::move(double* dt)
             gsml::Vector3d currentPos = getPosition();
 
             float distance1 = triangleNormal.dotProduct( currentPos - v1 ) - mRadius;
-            std::cout << "distance1: " << distance1 << std::endl;
+            //std::cout << "distance1: " << distance1 << std::endl;
+            //std::cout << "Velocity: " << mVelocity << std::endl;
+            //std::cout << "Acceleration: " << mAcceleration << std::endl;
 
             // Check if ball is within z axis, or moved below triangle.
-            if(distance1 <= 0.0001)
+            if(distance1 <= 0.0)
             {
                 trianglesBallIsWithin++;
 
@@ -60,16 +61,20 @@ void RollingBall::move(double* dt)
 
                 std::cout << "N Force: "<< N_force << std::endl;
                 std::cout << "Cos A: "<< cos(cosAlpha) << std::endl;
-                //N_force = 0;
-                mAcceleration = (N_force+(mGravity*mMass)) / mMass;
 
+                //Oppdatere hastighet og posisjon, ink. deltaTime
+                gsml::Vector3d newAcc = (N_force+(mGravity*mMass)) / mMass;
                 std::cout << "Acceleration: " <<  mAcceleration << std::endl;
 
-                //Oppdatere hastighet og posisjon
-                mVelocity = mVelocity + mAcceleration * 1; // Multiplying here to reduce speed when testing
+                gsml::Vector3d newVel = mVelocity + (newAcc + mAcceleration)*(*dt * 0.5f); // Multiplying here to reduce speed when testing
                 std::cout <<"dt: " << std::to_string(*dt) << std::endl;
+                mPosition.translate((mVelocity.x * *dt  + mAcceleration.x * (pow(*dt, 2) * 0.5f)) * timeSlowDown,
+                                    (mVelocity.y * *dt + mAcceleration.y * (pow(*dt, 2) * 0.5f)) * timeSlowDown,
+                                    (mVelocity.z * *dt + mAcceleration.z * (pow(*dt, 2) * 0.5f)) * timeSlowDown);
 
-                mPosition.translate(mVelocity.x * *dt * timeSlowDown, mVelocity.y * *dt * timeSlowDown, mVelocity.z * *dt * timeSlowDown);
+                //Update variables in memory.
+                mVelocity = newVel;
+                mAcceleration = newAcc;
 
                 //Fix clipping
                 gsml::Vector3d p_0 = v1;
@@ -84,7 +89,7 @@ void RollingBall::move(double* dt)
                     mPosition.translate(offsetResult.x, offsetResult.y, offsetResult.z);
                 }
 
-                std::cout << "Velocity: " << mVelocity << std::endl;
+                //std::cout << "Velocity: " << mVelocity << std::endl;
 
 
                 int newTriangleIndex = i;
@@ -93,13 +98,13 @@ void RollingBall::move(double* dt)
                 // Ball has crossed over to a new triangle
                 if(oldTriangleIndex == -1)
                 {
-                    //Ball Bounces
+                    //Ball Bounces when it hits platform from freefall
                     gsml::Vector3d VelocityAfter = mVelocity - triangleNormal * mVelocity.dotProduct(triangleNormal)  * 2;
 
+                    std::cout << "FLIP!" << std::endl;
                     std::cout << "Velocity: " << mVelocity << std::endl;
                     std::cout << "VelocityAfter: " << VelocityAfter << std::endl;
                     mVelocity = VelocityAfter;
-
                 }
                 else
                 if (newTriangleIndex != oldTriangleIndex) //ny indeks != forrige index
@@ -132,11 +137,21 @@ void RollingBall::move(double* dt)
     }
     // Freefall
     if(trianglesBallIsWithin == 0){
-        mAcceleration = mGravity;
-        //Oppdatere hastighet og posisjon
-        mVelocity = mVelocity + mAcceleration; // Multiplying here to reduce speed when testing
-        mPosition.translate(mVelocity.x * *dt * timeSlowDown, mVelocity.y * *dt * timeSlowDown, mVelocity.z * *dt * timeSlowDown);
-        //oldTriangleIndex = -1;
+        gsml::Vector3d newAcc = mGravity;
+
+        gsml::Vector3d newVel = mVelocity + (newAcc + mAcceleration)*(*dt * 0.5f); // Multiplying here to reduce speed when testing
+        mPosition.translate((mVelocity.x * *dt  + mAcceleration.x * (pow(*dt, 2) * 0.5f)) * timeSlowDown,
+                            (mVelocity.y * *dt + mAcceleration.y * (pow(*dt, 2) * 0.5f)) * timeSlowDown,
+                            (mVelocity.z * *dt + mAcceleration.z * (pow(*dt, 2) * 0.5f)) * timeSlowDown);
+
+        //Update variables.
+        mAcceleration = newAcc;
+        mVelocity = newVel;
+
+        std::cout << "Acceleration: " <<  mAcceleration << std::endl;
+        std::cout << "Velocity: " <<  mVelocity << std::endl;
+
+        oldTriangleIndex = -1;
     }
 
 

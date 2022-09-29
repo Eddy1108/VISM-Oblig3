@@ -14,6 +14,7 @@ TriangleSurface::TriangleSurface() : VisualObject()
     v.set_xyz(0,0,0); v.set_rgb(0,1,0); mVertices.push_back(v);
     v.set_xyz(0.5,0.5,0); v.set_rgb(1,0,0); mVertices.push_back(v);
     v.set_xyz(0,0.5,0); v.set_rgb(0,0,1); mVertices.push_back(v);
+
 }
 
 TriangleSurface::TriangleSurface(std::string filnavn) : VisualObject()

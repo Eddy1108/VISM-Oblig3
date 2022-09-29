@@ -51,8 +51,8 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     //Triangle1->TriangleVectorFromFileLocal("../VISM-Oblig3/cleanTrekanter.txt");
 
     // Demo
-    surface = new TriangleSurface("../VISM-Oblig3/platform.txt");
-    //surface = new TriangleSurface("../VISM-Oblig3/FlateTest.txt");
+    //surface = new TriangleSurface("../VISM-Oblig3/platform.txt");
+    surface = new TriangleSurface("../VISM-Oblig3/FlateTest.txt");
     ball = new RollingBall(3);
     dynamic_cast<RollingBall*>(ball)->setSurface(surface);
 
@@ -202,7 +202,10 @@ void RenderWindow::render()
     // Qt require us to call this swapBuffers() -function.
     // swapInterval is 1 by default which means that swapBuffers() will (hopefully) block
     // and wait for vsync.
+
     mContext->swapBuffers(this);
+
+
 }
 
 //This function is called from Qt when window is exposed (shown)

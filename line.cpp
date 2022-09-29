@@ -6,7 +6,7 @@ Line::Line(const gsml::Vector3d& direction, const gsml::Matrix4x4& positionMatri
     mObjPosition = &positionMatrix;
 
     mVertices.push_back(gsml::Vertex{0,0,0,color.x, color.y, color.z});
-    mVertices.push_back(gsml::Vertex{1,0,0.1,color.x, color.y, color.z});
+    mVertices.push_back(gsml::Vertex{0.1,0,0,color.x, color.y, color.z});
 }
 
 void Line::init(GLint matrixUniform)

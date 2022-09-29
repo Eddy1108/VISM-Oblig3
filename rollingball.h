@@ -23,14 +23,14 @@ protected:
 private:
     int oldTriangleIndex{-1};
     gsml::Vector3d oldNormal{0.0, 0.0, 1.0};
-    gsml::Vector3d mVelocity{0,0,0}; // Her gir vi den en litt ekstra start fart, for at den skal trille over kanten
+    gsml::Vector3d mVelocity{0.5,0,0}; // Her gir vi den en litt ekstra start fart, for at den skal trille over kanten
     gsml::Vector3d mAcceleration{0,0,0};
     gsml::Vector3d mGravity{0,0,-9.80665};
 
     float mMass {0.0175f}; //kg
     float mRadius {0.0175f}; // m
 
-    float timeSlowDown {0.0005};
+    float timeSlowDown {1};
 
     //Debug
     Line* mVelocityLine {nullptr};
